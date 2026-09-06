@@ -1,16 +1,18 @@
 // TASK 1 
+function welcomeUser() {
+    alert("Welcome to my site");
+}
 
-alert("Welcome to my site");
+welcomeUser();
+
 let userName = prompt("Enter your name");
-alert("Welcome " + userName + " !");
-
-
+alert("Welcome " + userName);
 
 let Arrays = [
     [80, 75, 85],
-    [90, 95, 91],
-    [60, 65, 55],
-    [40, 45, 35]
+    [90, 94, 91],
+    [60, 67, 15],
+    [40, 85, 55]
 ];
 
 for (let i = 0; i < Arrays.length; i++) {

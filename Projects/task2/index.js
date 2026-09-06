@@ -1,44 +1,67 @@
 const productsContainer = document.getElementById("products-container");
+const showProductsButton = document.getElementById("show-products");
 
-fetch("https://fakestoreapi.com/products")
-  .then((response) => response.json())
-  .then((data) => {
-    data.forEach((product) => {
-      const card = document.createElement("div");
+showProductsButton.addEventListener("click", () => {
 
-      card.classList.add("card");
+    showProductsButton.style.display = "none";
 
-      card.innerHTML = `
-                <img src="${product.image}" alt="${product.title}">
+    fetch("https://fakestoreapi.com/products")
 
-                <h2>${product.title}</h2>
+        .then((response) => response.json())
 
-                <p class="price">$${product.price}</p>
+        .then((data) => {
 
-                <p class="description">${product.description}</p>
+            data.forEach((product) => {
 
-                <button class="see-more">See More</button>
+                const card = document.createElement("div");
 
-                <p>Category: ${product.category}</p>
+                card.className = "card";
 
-                <p>Rating: ${product.rating.rate}</p>
-            `;
-      const seeMoreButton = card.querySelector(".see-more");
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}">
 
-      const description = card.querySelector(".description");
+                    <h2>${product.title}</h2>
 
-      seeMoreButton.addEventListener("click", () => {
-        description.classList.toggle("expanded");
+                    <p class="price">$${product.price}</p>
 
-        if (description.classList.contains("expanded")) {
-          seeMoreButton.textContent = "See Less";
-        } else {
-          seeMoreButton.textContent = "See More";
-        }
-      });
-      productsContainer.appendChild(card);
-    });
-  })
-  .catch((error) => {
-    console.log("Error:", error);
-  });
+                    <p class="description">${product.description}</p>
+
+                    <button class="see-more">See More</button>
+
+                    <p>Category: ${product.category}</p>
+
+                    <p>Rating: ${product.rating.rate}</p>
+                `;
+
+                const seeMoreButton = card.querySelector(".see-more");
+
+                const description = card.querySelector(".description");
+
+                seeMoreButton.addEventListener("click", () => {
+
+                    description.classList.toggle("expanded");
+
+                    if (description.classList.contains("expanded")) {
+
+                        seeMoreButton.textContent = "See Less";
+
+                    } else {
+
+                        seeMoreButton.textContent = "See More";
+
+                    }
+
+                });
+
+                productsContainer.appendChild(card);
+            });
+
+        })
+
+        .catch((error) => {
+
+            console.log("Error:", error);
+
+        });
+
+});

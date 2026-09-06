@@ -1,0 +1,219 @@
+test> use FacultySystemDB
+switched to db FacultySystemDB
+FacultySystemDB> db.createCollection('students')
+{ ok: 1 }
+FacultySystemDB> show collections
+students
+FacultySystemDB>
+FacultySystemDB> db.students.insertOne({FirstName:'Ahmed',LastName:'Ali',Age:20,Faculty:{Name:'Computer Science',Address:'Suez'},Grades:[{CourseName:'Database',Grade:90,Pass:true},{CourseName:'Programing',Grade:90,Pass:true}],IsFired:false})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a9878fd00cc0f28c565c7e5')
+}
+FacultySystemDB> db.students.insertMany([{FirstName:'Mohammed',LastName:'Hassan',Age:22,Faculty:{Name:'Engineering',Address:'Cairo'},Grades:[{CourseName:'Math',Grade:70,Pass:true}],isFired:false},{FirstName:'Omar',LastName:'Ahmed',Age:26,Faculty:{Name:'Medicine',Address:'Alex'},Grade:[{CourseName:'Biology',grade:40,Pass:false}],isFired:true}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a987b4100cc0f28c565c7e6'),
+    '1': ObjectId('6a987b4100cc0f28c565c7e7')
+  }
+}
+FacultySystemDB> db.students.find()
+[
+  {
+    _id: ObjectId('6a9878fd00cc0f28c565c7e5'),
+    FirstName: 'Ahmed',
+    LastName: 'Ali',
+    Age: 20,
+    Faculty: { Name: 'Computer Science', Address: 'Suez' },
+    Grades: [
+      { CourseName: 'Database', Grade: 90, Pass: true },
+      { CourseName: 'Programing', Grade: 90, Pass: true }
+    ],
+    IsFired: false
+  },
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e6'),
+    FirstName: 'Mohammed',
+    LastName: 'Hassan',
+    Age: 22,
+    Faculty: { Name: 'Engineering', Address: 'Cairo' },
+    Grades: [ { CourseName: 'Math', Grade: 70, Pass: true } ],
+    isFired: false
+  },
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e7'),
+    FirstName: 'Omar',
+    LastName: 'Ahmed',
+    Age: 26,
+    Faculty: { Name: 'Medicine', Address: 'Alex' },
+    Grade: [ { CourseName: 'Biology', grade: 40, Pass: false } ],
+    isFired: true
+  }
+]
+FacultySystemDB> db.students.find({FirstName:'Ahmed'})
+[
+  {
+    _id: ObjectId('6a9878fd00cc0f28c565c7e5'),
+    FirstName: 'Ahmed',
+    LastName: 'Ali',
+    Age: 20,
+    Faculty: { Name: 'Computer Science', Address: 'Suez' },
+    Grades: [
+      { CourseName: 'Database', Grade: 90, Pass: true },
+      { CourseName: 'Programing', Grade: 90, Pass: true }
+    ],
+    IsFired: false
+  }
+]
+FacultySystemDB> db.students.find({$or:[{FirstName:'Ahmed'},{LastName:'Ahmed'}]})
+[
+  {
+    _id: ObjectId('6a9878fd00cc0f28c565c7e5'),
+    FirstName: 'Ahmed',
+    LastName: 'Ali',
+    Age: 20,
+    Faculty: { Name: 'Computer Science', Address: 'Suez' },
+    Grades: [
+      { CourseName: 'Database', Grade: 90, Pass: true },
+      { CourseName: 'Programing', Grade: 90, Pass: true }
+    ],
+    IsFired: false
+  },
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e7'),
+    FirstName: 'Omar',
+    LastName: 'Ahmed',
+    Age: 26,
+    Faculty: { Name: 'Medicine', Address: 'Alex' },
+    Grade: [ { CourseName: 'Biology', grade: 40, Pass: false } ],
+    isFired: true
+  }
+]
+FacultySystemDB> db.students.find({FirstName:{$ne:'Ahmed'}})
+[
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e6'),
+    FirstName: 'Mohammed',
+    LastName: 'Hassan',
+    Age: 22,
+    Faculty: { Name: 'Engineering', Address: 'Cairo' },
+    Grades: [ { CourseName: 'Math', Grade: 70, Pass: true } ],
+    isFired: false
+  },
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e7'),
+    FirstName: 'Omar',
+    LastName: 'Ahmed',
+    Age: 26,
+    Faculty: { Name: 'Medicine', Address: 'Alex' },
+    Grade: [ { CourseName: 'Biology', grade: 40, Pass: false } ],
+    isFired: true
+  }
+]
+FacultySystemDB> db.students.find({Age:{$lt:21}})
+[
+  {
+    _id: ObjectId('6a9878fd00cc0f28c565c7e5'),
+    FirstName: 'Ahmed',
+    LastName: 'Ali',
+    Age: 20,
+    Faculty: { Name: 'Computer Science', Address: 'Suez' },
+    Grades: [
+      { CourseName: 'Database', Grade: 90, Pass: true },
+      { CourseName: 'Programing', Grade: 90, Pass: true }
+    ],
+    IsFired: false
+  }
+]
+FacultySystemDB> db.students.find({isFired:true})
+[
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e7'),
+    FirstName: 'Omar',
+    LastName: 'Ahmed',
+    Age: 26,
+    Faculty: { Name: 'Medicine', Address: 'Alex' },
+    Grade: [ { CourseName: 'Biology', grade: 40, Pass: false } ],
+    isFired: true
+  }
+]
+FacultySystemDB> db.students.find({Age:{$gte:21},Faculty:{$ne:null}})
+[
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e6'),
+    FirstName: 'Mohammed',
+    LastName: 'Hassan',
+    Age: 22,
+    Faculty: { Name: 'Engineering', Address: 'Cairo' },
+    Grades: [ { CourseName: 'Math', Grade: 70, Pass: true } ],
+    isFired: false
+  },
+  {
+    _id: ObjectId('6a987b4100cc0f28c565c7e7'),
+    FirstName: 'Omar',
+    LastName: 'Ahmed',
+    Age: 26,
+    Faculty: { Name: 'Medicine', Address: 'Alex' },
+    Grade: [ { CourseName: 'Biology', grade: 40, Pass: false } ],
+    isFired: true
+  }
+]
+FacultySystemDB> db.students.find({FirstName:'Ahmed'},{_id:0,FirstName:1,LastName:1,isFired:1})
+[ { FirstName: 'Ahmed' } ]
+FacultySystemDB> db.students.updateOne({FirstName:'Ahmed'},{$set:{LastName:'Mahmoud'}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+FacultySystemDB> db.students.find({FirstName:'Ahmed'})
+[
+  {
+    _id: ObjectId('6a9878fd00cc0f28c565c7e5'),
+    FirstName: 'Ahmed',
+    LastName: 'Mahmoud',
+    Age: 20,
+    Faculty: { Name: 'Computer Science', Address: 'Suez' },
+    Grades: [
+      { CourseName: 'Database', Grade: 90, Pass: true },
+      { CourseName: 'Programing', Grade: 90, Pass: true }
+    ],
+    IsFired: false
+  }
+]
+FacultySystemDB> db.students.createIndex({FirstName:1})
+First_1
+FacultySystemDB> db.students.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { FirstName: 1 }, name: 'FirstName_1' }
+]
+FacultySystemDB> db.students.updateOne({FirstName:'Ahmed'},{$unset:{'Faculty.Address':''}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+FacultySystemDB> db.students.updateOne({FirstName:'Ahmed'},{$unset:{isFired:''}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+FacultySystemDB> db.students.deleteMany({isFired: true})
+{ acknowledged: true, deletedCount: 1 }
+FacultySystemDB> db.students.deleteMany({})
+{ acknowledged: true, deletedCount: 2 }
+FacultySystemDB> db.students.drop()
+true
+FacultySystemDB> show collections
+
+FacultySystemDB> db.dropDatabase()
+{ ok: 1, dropped: 'FacultySystemDB' }
